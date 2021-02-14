@@ -1,0 +1,9 @@
+df['SalePrice'].hist()
+
+
+plt.hist(df['SalePrice'])
+plt.hist(df['SalePrice'], rwidth=0.5, bins=4)
+
+
+plt.figure(figsize=(9,7))
+sns.distplot(df['SalePrice'])
