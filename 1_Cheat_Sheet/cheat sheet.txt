@@ -1,0 +1,74 @@
+from sklearn.metrics import roc_auc_score
+
+----------------------------------------------------------------------------------
+
+# Numerical & Categorical Columns:
+
+
+cat_cols = []
+num_cols = []
+
+for col in test.columns:
+    if test[col].dtype == "float64":
+        num_cols.append(col)
+    else:
+        cat_cols.append(col)
+        
+print("\n--------DETAILS OF COLUMNS-------")
+print("\nThere are {} categorical and {} numerical columns.".format(len(cat_cols),len(num_cols)))
+print("\nCategorical columns are: \n\n",cat_cols)
+print("\nNumerical columns are: \n\n",num_cols)
+
+-----------------------------------------------------------------------------------
+
+# Label Encoding
+
+for i in train.columns:
+    if train[i].dtype=='object': 
+        le = LabelEncoder()
+        le.fit(list(train[i].values) + list(test[i].values))
+        train[i] = le.transform(train[i].values)
+        test[i] = le.transform(test[i].values)
+        
+display(train.head())
+display (test.head())
+
+----------------------------------------------------------------------------------
+
+#parameters after optuna
+lgbm_parameters = {
+    'cat_feature': categorical_feature,
+    'metric': 'auc', 
+    'n_estimators': 20000,
+    'reg_alpha': 0.000721024661208569,
+    'reg_lambda': 47.79748127808107,
+    'colsample_bytree': 0.24493010466517195,
+    'subsample': 0.12246675404710294,
+    'learning_rate': 0.013933182980403087,
+    'max_depth': 21,
+    'num_leaves': 90,
+    'min_child_samples': 144,
+    'cat_smooth': 63
+}
+
+---------------------------------------------------------------------------------------------
+
+# Identify categorical features
+cat = (data.dtypes == 'object')
+cat_cols = list(cat[cat].index)
+print(cat_cols)
+
+# Create a handful of plots
+for cols in cat_cols:
+    plt.figure(figsize=(8,4));
+    sns.countplot(x = data[cols]);
+
+------------------------------------------------------------------------------------------------
+https://www.kaggle.com/svyatoslavsokolov/tps-mar-2021-lgbm
+
+lgbm_model = LGBMClassifier(**lgbm_params)
+
+plt.rcParams["figure.figsize"] = (6, 5)
+lightgbm.plot_importance(lgbm_model,max_num_features = 16,height=.9)
+
+-----------------------------------------------------------------------------------------------
